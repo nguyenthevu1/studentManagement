@@ -7,10 +7,14 @@ module.exports = (req, res, next) => {
     const token = authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET || "mySecret", (err, decode) => {
       if (err) {
-        res.status(401).send({ message: "het han" });
+        res.status(401).send({ message: authorization });
       } else {
         req.user = decode.info;
-        next();
+        if (req.user.isAdmin === "admin") {
+          next();
+        } else {
+          res.status(400).send({ message: "khong co quyen " });
+        }
       }
     });
   } else {

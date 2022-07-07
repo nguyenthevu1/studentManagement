@@ -23,11 +23,17 @@ module.exports.policies = {
    * access)                                                                  *
    *                                                                          *
    ***************************************************************************/
+  // "*": ["isAuthorized", "isAdmin"],
   "*": ["isAuthorized"],
-  StudentController: {
-    create: true,
+
+  UsersController: {
+    create: "isAdmin",
+    delete: "isAdmin",
+    getAllUser: "isAdmin",
+    demo: true,
     login: true,
   },
+
   /***************************************************************************
    *                                                                          *
    * Here's an example of mapping some policies to run before a controller    *

@@ -16,16 +16,23 @@ module.exports = {
     tinh: { type: "string" },
     huyen: { type: "string" },
     xa: { type: "string" },
+    isAdmin: { type: "string", defaultsTo: "user" },
+    avatar: {
+      type: "string",
+      defaultsTo:
+        "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg",
+    },
   },
 
   beforeCreate: function (user, cb) {
     bcrypt.hash(user.password, 10, function (err, hash) {
-      if (err) {
-        return cb(err);
-      }
       if (hash) {
         user.password = hash;
-        return cd(null, hash);
+        return cb(null, hash);
+      }
+
+      if (err) {
+        return cb(err);
       }
     });
   },

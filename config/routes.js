@@ -34,12 +34,15 @@ module.exports.routes = {
     view: "homepage",
   },
 
-  "POST /student": "StudentController.create",
-  "POST /login": "StudentController.login",
-  "GET /Students": "StudentController.getAllStudent",
-  "GET /Student/:id": "StudentController.getSingleStudent",
-  "PUT /Student/update/:id": "StudentController.updateStudent",
-  "DELETE /Student/delete/:id": "StudentController.deleteStudent",
+  "POST /user": "UsersController.create",
+  "POST /login": "UsersController.login",
+  "GET /users": "UsersController.getAllUser",
+  "GET /user/:id": "UsersController.getSingleUser",
+  "PUT /user/update/:id": "UsersController.updateUser",
+  "DELETE /user/delete/:id": "UsersController.deleteUser",
+  "PATCH /user/upload/:id": "UsersController.uploadAvatar",
+  // "POST /demo": "UsersController.demo",
+
   /***************************************************************************
    *                                                                          *
    * Custom routes here...                                                    *
