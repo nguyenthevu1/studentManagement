@@ -125,10 +125,15 @@ module.exports = {
   uploadAvatar: async function (req, res) {
     try {
       const id = req.params.id;
+      if (req.file("avatar")._readableState.length < 1) {
+        res.status(400).json({
+          success: false,
+          message: "Vui long chon file",
+        });
+      }
+
       const uploaded = await uploadAvatarUser(id, req.file("avatar"), req.user);
-      res.status(200).json({
-        uploaded,
-      });
+      res.status(200).json(uploaded);
     } catch (e) {
       res.status(5000).json({ e });
     }

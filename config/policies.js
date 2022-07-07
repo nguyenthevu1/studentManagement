@@ -30,7 +30,6 @@ module.exports.policies = {
     create: "isAdmin",
     delete: "isAdmin",
     getAllUser: "isAdmin",
-    demo: true,
     login: true,
   },
 

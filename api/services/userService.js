@@ -61,23 +61,52 @@ const handlerLogin = async (msv, pass) => {
   }
 };
 
-const uploadAvatarUser = (id, data, user) => {
+const uploadAvatarUser = async (id, data, user) => {
   try {
     const currentPath = path.resolve(sails.config.appPath, "assets/images");
 
     if (user.isAdmin === "admin" || user.id === id) {
-      data.upload(
-        {
-          dirname: currentPath,
-        },
-        async function (err, uploadedFiles) {
-          if (err) return { e };
+      const upload = data._files[0].stream,
+        allowedTypes = ["image/jpeg", "image/png"],
+        headers = upload.headers;
 
-          if (uploadedFiles) {
-            await Users.update({ id }, { avatar: uploadedFiles[0].fd });
-          }
+      let validated = true;
+      if (!allowedTypes.includes(headers["content-type"])) {
+        validated = false;
+        return {
+          success: false,
+          message: "File khong dung dinh dang",
+        };
+      }
+
+      if (validated == true) {
+        const uploaded = await data.upload({
+          dirname: currentPath,
+        });
+        if (!uploaded) {
+          return {
+            success: false,
+            message: "khong the uploaded",
+          };
         }
-      );
+        await Users.update({ id }, { avatar: uploaded._files[0].stream.fd });
+
+        return {
+          success: true,
+        };
+
+        // async function (err, uploadedFiles) {
+        //   if (err) return { err };
+        //   console.log("upload", err);
+        //   if (uploadedFiles) {
+        //     await Users.update({ id }, { avatar: uploadedFiles[0].fd });
+        //     console.log("upload done");
+        //     return {
+        //       success: true,
+        //     };
+        //   }
+        // }
+      }
     } else {
       return {
         success: false,

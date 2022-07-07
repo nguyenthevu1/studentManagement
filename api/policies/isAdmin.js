@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     const token = authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET || "mySecret", (err, decode) => {
       if (err) {
-        res.status(401).send({ message: authorization });
+        res.status(401).send({ message: 12345 });
       } else {
         req.user = decode.info;
         if (req.user.isAdmin === "admin") {
